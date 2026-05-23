@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: trend.proto
+// source: trend/v1/trend.proto
 
 package pb
 
@@ -31,7 +31,7 @@ type TrendItem struct {
 
 func (x *TrendItem) Reset() {
 	*x = TrendItem{}
-	mi := &file_trend_proto_msgTypes[0]
+	mi := &file_trend_v1_trend_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *TrendItem) String() string {
 func (*TrendItem) ProtoMessage() {}
 
 func (x *TrendItem) ProtoReflect() protoreflect.Message {
-	mi := &file_trend_proto_msgTypes[0]
+	mi := &file_trend_v1_trend_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *TrendItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TrendItem.ProtoReflect.Descriptor instead.
 func (*TrendItem) Descriptor() ([]byte, []int) {
-	return file_trend_proto_rawDescGZIP(), []int{0}
+	return file_trend_v1_trend_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *TrendItem) GetQuery() string {
@@ -82,7 +82,7 @@ type GetTopNRequest struct {
 
 func (x *GetTopNRequest) Reset() {
 	*x = GetTopNRequest{}
-	mi := &file_trend_proto_msgTypes[1]
+	mi := &file_trend_v1_trend_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +94,7 @@ func (x *GetTopNRequest) String() string {
 func (*GetTopNRequest) ProtoMessage() {}
 
 func (x *GetTopNRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_trend_proto_msgTypes[1]
+	mi := &file_trend_v1_trend_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +107,7 @@ func (x *GetTopNRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTopNRequest.ProtoReflect.Descriptor instead.
 func (*GetTopNRequest) Descriptor() ([]byte, []int) {
-	return file_trend_proto_rawDescGZIP(), []int{1}
+	return file_trend_v1_trend_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetTopNRequest) GetLimit() int32 {
@@ -126,7 +126,7 @@ type GetTopNResponse struct {
 
 func (x *GetTopNResponse) Reset() {
 	*x = GetTopNResponse{}
-	mi := &file_trend_proto_msgTypes[2]
+	mi := &file_trend_v1_trend_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +138,7 @@ func (x *GetTopNResponse) String() string {
 func (*GetTopNResponse) ProtoMessage() {}
 
 func (x *GetTopNResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_trend_proto_msgTypes[2]
+	mi := &file_trend_v1_trend_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +151,7 @@ func (x *GetTopNResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTopNResponse.ProtoReflect.Descriptor instead.
 func (*GetTopNResponse) Descriptor() ([]byte, []int) {
-	return file_trend_proto_rawDescGZIP(), []int{2}
+	return file_trend_v1_trend_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetTopNResponse) GetTrends() []*TrendItem {
@@ -161,11 +161,11 @@ func (x *GetTopNResponse) GetTrends() []*TrendItem {
 	return nil
 }
 
-var File_trend_proto protoreflect.FileDescriptor
+var File_trend_v1_trend_proto protoreflect.FileDescriptor
 
-const file_trend_proto_rawDesc = "" +
+const file_trend_v1_trend_proto_rawDesc = "" +
 	"\n" +
-	"\vtrend.proto\x12\ftrendservice\"7\n" +
+	"\x14trend/v1/trend.proto\x12\ftrendservice\"7\n" +
 	"\tTrendItem\x12\x14\n" +
 	"\x05query\x18\x01 \x01(\tR\x05query\x12\x14\n" +
 	"\x05count\x18\x02 \x01(\x05R\x05count\"&\n" +
@@ -177,24 +177,24 @@ const file_trend_proto_rawDesc = "" +
 	"\aGetTopN\x12\x1c.trendservice.GetTopNRequest\x1a\x1d.trendservice.GetTopNResponseBHZFgithub.com/wildberries-test-task-22-05-2026/internal/transport/grpc/pbb\x06proto3"
 
 var (
-	file_trend_proto_rawDescOnce sync.Once
-	file_trend_proto_rawDescData []byte
+	file_trend_v1_trend_proto_rawDescOnce sync.Once
+	file_trend_v1_trend_proto_rawDescData []byte
 )
 
-func file_trend_proto_rawDescGZIP() []byte {
-	file_trend_proto_rawDescOnce.Do(func() {
-		file_trend_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_trend_proto_rawDesc), len(file_trend_proto_rawDesc)))
+func file_trend_v1_trend_proto_rawDescGZIP() []byte {
+	file_trend_v1_trend_proto_rawDescOnce.Do(func() {
+		file_trend_v1_trend_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_trend_v1_trend_proto_rawDesc), len(file_trend_v1_trend_proto_rawDesc)))
 	})
-	return file_trend_proto_rawDescData
+	return file_trend_v1_trend_proto_rawDescData
 }
 
-var file_trend_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_trend_proto_goTypes = []any{
+var file_trend_v1_trend_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_trend_v1_trend_proto_goTypes = []any{
 	(*TrendItem)(nil),       // 0: trendservice.TrendItem
 	(*GetTopNRequest)(nil),  // 1: trendservice.GetTopNRequest
 	(*GetTopNResponse)(nil), // 2: trendservice.GetTopNResponse
 }
-var file_trend_proto_depIdxs = []int32{
+var file_trend_v1_trend_proto_depIdxs = []int32{
 	0, // 0: trendservice.GetTopNResponse.trends:type_name -> trendservice.TrendItem
 	1, // 1: trendservice.TrendService.GetTopN:input_type -> trendservice.GetTopNRequest
 	2, // 2: trendservice.TrendService.GetTopN:output_type -> trendservice.GetTopNResponse
@@ -205,26 +205,26 @@ var file_trend_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_trend_proto_init() }
-func file_trend_proto_init() {
-	if File_trend_proto != nil {
+func init() { file_trend_v1_trend_proto_init() }
+func file_trend_v1_trend_proto_init() {
+	if File_trend_v1_trend_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_trend_proto_rawDesc), len(file_trend_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_trend_v1_trend_proto_rawDesc), len(file_trend_v1_trend_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_trend_proto_goTypes,
-		DependencyIndexes: file_trend_proto_depIdxs,
-		MessageInfos:      file_trend_proto_msgTypes,
+		GoTypes:           file_trend_v1_trend_proto_goTypes,
+		DependencyIndexes: file_trend_v1_trend_proto_depIdxs,
+		MessageInfos:      file_trend_v1_trend_proto_msgTypes,
 	}.Build()
-	File_trend_proto = out.File
-	file_trend_proto_goTypes = nil
-	file_trend_proto_depIdxs = nil
+	File_trend_v1_trend_proto = out.File
+	file_trend_v1_trend_proto_goTypes = nil
+	file_trend_v1_trend_proto_depIdxs = nil
 }

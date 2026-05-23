@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.1
 // - protoc             v3.21.12
-// source: trend.proto
+// source: trend/v1/trend.proto
 
 package pb
 
@@ -117,5 +117,5 @@ var TrendService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "trend.proto",
+	Metadata: "trend/v1/trend.proto",
 }
