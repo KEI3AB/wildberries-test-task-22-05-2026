@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package stoplistservice;
+
+import "google/protobuf/empty.proto";
+
+option go_package =
+        "github.com/wildberries-test-task-22-05-2026/"
+        "internal/transport/grpc/pb";
+
+service StopListService {
+  rpc AddWord (AddWordRequest) returns (google.protobuf.Empty);
+  rpc DeleteWord (DeleteWordRequest) returns (google.protobuf.Empty);
+}
+
+// Сообщения запросов/ответов
+
+message AddWordRequest {
+  string word = 1;
+}
+
+message DeleteWordRequest {
+  string word = 1;
+}
