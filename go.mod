@@ -3,6 +3,8 @@ module github.com/wildberries-test-task-22-05-2026
 go 1.26.1
 
 require (
+	github.com/caarlos0/env/v11 v11.4.1
+	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.3
 	github.com/mailru/easyjson v0.9.2
 	github.com/redis/rueidis v1.0.75
 	github.com/twmb/franz-go v1.21.2
