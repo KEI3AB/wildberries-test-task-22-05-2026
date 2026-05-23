@@ -9,6 +9,7 @@ type StopListRepository interface {
 	IsBlocked(ctx context.Context, token string) (bool, error)
 	AddWord(ctx context.Context, word string) error
 	DeleteWord(ctx context.Context, word string) error
+	GetAllWords(ctx context.Context) ([]string, error)
 }
 
 type StopListManager struct {
@@ -36,7 +37,7 @@ func (uc *StopListManager) IsBlocked(ctx context.Context, query string) (bool, e
 			continue // из-за двойного пробела может быть
 		}
 
-		blocked, err := uc.slRepo.IsBlocked(ctx, query[0:idx])
+		blocked, err := uc.slRepo.IsBlocked(ctx, word)
 		if blocked {
 			return true, nil
 		} else if err != nil {
@@ -53,4 +54,8 @@ func (uc *StopListManager) AddWord(ctx context.Context, word string) error {
 
 func (uc *StopListManager) DeleteWord(ctx context.Context, word string) error {
 	return uc.slRepo.DeleteWord(ctx, word)
+}
+
+func (uc *StopListManager) GetAllWords(ctx context.Context) ([]string, error) {
+	return uc.slRepo.GetAllWords(ctx)
 }

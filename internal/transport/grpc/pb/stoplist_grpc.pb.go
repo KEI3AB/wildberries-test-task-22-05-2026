@@ -20,8 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	StopListService_AddWord_FullMethodName    = "/stoplistservice.StopListService/AddWord"
-	StopListService_DeleteWord_FullMethodName = "/stoplistservice.StopListService/DeleteWord"
+	StopListService_AddWord_FullMethodName     = "/stoplistservice.StopListService/AddWord"
+	StopListService_DeleteWord_FullMethodName  = "/stoplistservice.StopListService/DeleteWord"
+	StopListService_GetAllWords_FullMethodName = "/stoplistservice.StopListService/GetAllWords"
 )
 
 // StopListServiceClient is the client API for StopListService service.
@@ -30,6 +31,7 @@ const (
 type StopListServiceClient interface {
 	AddWord(ctx context.Context, in *AddWordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteWord(ctx context.Context, in *DeleteWordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetAllWords(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllWordsResponse, error)
 }
 
 type stopListServiceClient struct {
@@ -60,12 +62,23 @@ func (c *stopListServiceClient) DeleteWord(ctx context.Context, in *DeleteWordRe
 	return out, nil
 }
 
+func (c *stopListServiceClient) GetAllWords(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllWordsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllWordsResponse)
+	err := c.cc.Invoke(ctx, StopListService_GetAllWords_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StopListServiceServer is the server API for StopListService service.
 // All implementations must embed UnimplementedStopListServiceServer
 // for forward compatibility.
 type StopListServiceServer interface {
 	AddWord(context.Context, *AddWordRequest) (*emptypb.Empty, error)
 	DeleteWord(context.Context, *DeleteWordRequest) (*emptypb.Empty, error)
+	GetAllWords(context.Context, *emptypb.Empty) (*GetAllWordsResponse, error)
 	mustEmbedUnimplementedStopListServiceServer()
 }
 
@@ -81,6 +94,9 @@ func (UnimplementedStopListServiceServer) AddWord(context.Context, *AddWordReque
 }
 func (UnimplementedStopListServiceServer) DeleteWord(context.Context, *DeleteWordRequest) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteWord not implemented")
+}
+func (UnimplementedStopListServiceServer) GetAllWords(context.Context, *emptypb.Empty) (*GetAllWordsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllWords not implemented")
 }
 func (UnimplementedStopListServiceServer) mustEmbedUnimplementedStopListServiceServer() {}
 func (UnimplementedStopListServiceServer) testEmbeddedByValue()                         {}
@@ -139,6 +155,24 @@ func _StopListService_DeleteWord_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StopListService_GetAllWords_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StopListServiceServer).GetAllWords(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StopListService_GetAllWords_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StopListServiceServer).GetAllWords(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StopListService_ServiceDesc is the grpc.ServiceDesc for StopListService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,6 +187,10 @@ var StopListService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteWord",
 			Handler:    _StopListService_DeleteWord_Handler,
+		},
+		{
+			MethodName: "GetAllWords",
+			Handler:    _StopListService_GetAllWords_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

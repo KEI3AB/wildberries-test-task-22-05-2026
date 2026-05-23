@@ -11,6 +11,7 @@ option go_package =
 service StopListService {
   rpc AddWord (AddWordRequest) returns (google.protobuf.Empty);
   rpc DeleteWord (DeleteWordRequest) returns (google.protobuf.Empty);
+  rpc GetAllWords (google.protobuf.Empty) returns (GetAllWordsResponse);
 }
 
 // Сообщения запросов/ответов
@@ -21,4 +22,8 @@ message AddWordRequest {
 
 message DeleteWordRequest {
   string word = 1;
+}
+
+message GetAllWordsResponse {
+  repeated string words = 1;
 }

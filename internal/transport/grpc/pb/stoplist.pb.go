@@ -110,6 +110,50 @@ func (x *DeleteWordRequest) GetWord() string {
 	return ""
 }
 
+type GetAllWordsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Words         []string               `protobuf:"bytes,1,rep,name=words,proto3" json:"words,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllWordsResponse) Reset() {
+	*x = GetAllWordsResponse{}
+	mi := &file_stoplist_stoplist_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllWordsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllWordsResponse) ProtoMessage() {}
+
+func (x *GetAllWordsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_stoplist_stoplist_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllWordsResponse.ProtoReflect.Descriptor instead.
+func (*GetAllWordsResponse) Descriptor() ([]byte, []int) {
+	return file_stoplist_stoplist_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetAllWordsResponse) GetWords() []string {
+	if x != nil {
+		return x.Words
+	}
+	return nil
+}
+
 var File_stoplist_stoplist_proto protoreflect.FileDescriptor
 
 const file_stoplist_stoplist_proto_rawDesc = "" +
@@ -118,11 +162,14 @@ const file_stoplist_stoplist_proto_rawDesc = "" +
 	"\x0eAddWordRequest\x12\x12\n" +
 	"\x04word\x18\x01 \x01(\tR\x04word\"'\n" +
 	"\x11DeleteWordRequest\x12\x12\n" +
-	"\x04word\x18\x01 \x01(\tR\x04word2\x9f\x01\n" +
+	"\x04word\x18\x01 \x01(\tR\x04word\"+\n" +
+	"\x13GetAllWordsResponse\x12\x14\n" +
+	"\x05words\x18\x01 \x03(\tR\x05words2\xec\x01\n" +
 	"\x0fStopListService\x12B\n" +
 	"\aAddWord\x12\x1f.stoplistservice.AddWordRequest\x1a\x16.google.protobuf.Empty\x12H\n" +
 	"\n" +
-	"DeleteWord\x12\".stoplistservice.DeleteWordRequest\x1a\x16.google.protobuf.EmptyBHZFgithub.com/wildberries-test-task-22-05-2026/internal/transport/grpc/pbb\x06proto3"
+	"DeleteWord\x12\".stoplistservice.DeleteWordRequest\x1a\x16.google.protobuf.Empty\x12K\n" +
+	"\vGetAllWords\x12\x16.google.protobuf.Empty\x1a$.stoplistservice.GetAllWordsResponseBHZFgithub.com/wildberries-test-task-22-05-2026/internal/transport/grpc/pbb\x06proto3"
 
 var (
 	file_stoplist_stoplist_proto_rawDescOnce sync.Once
@@ -136,19 +183,22 @@ func file_stoplist_stoplist_proto_rawDescGZIP() []byte {
 	return file_stoplist_stoplist_proto_rawDescData
 }
 
-var file_stoplist_stoplist_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_stoplist_stoplist_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_stoplist_stoplist_proto_goTypes = []any{
-	(*AddWordRequest)(nil),    // 0: stoplistservice.AddWordRequest
-	(*DeleteWordRequest)(nil), // 1: stoplistservice.DeleteWordRequest
-	(*emptypb.Empty)(nil),     // 2: google.protobuf.Empty
+	(*AddWordRequest)(nil),      // 0: stoplistservice.AddWordRequest
+	(*DeleteWordRequest)(nil),   // 1: stoplistservice.DeleteWordRequest
+	(*GetAllWordsResponse)(nil), // 2: stoplistservice.GetAllWordsResponse
+	(*emptypb.Empty)(nil),       // 3: google.protobuf.Empty
 }
 var file_stoplist_stoplist_proto_depIdxs = []int32{
 	0, // 0: stoplistservice.StopListService.AddWord:input_type -> stoplistservice.AddWordRequest
 	1, // 1: stoplistservice.StopListService.DeleteWord:input_type -> stoplistservice.DeleteWordRequest
-	2, // 2: stoplistservice.StopListService.AddWord:output_type -> google.protobuf.Empty
-	2, // 3: stoplistservice.StopListService.DeleteWord:output_type -> google.protobuf.Empty
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	3, // 2: stoplistservice.StopListService.GetAllWords:input_type -> google.protobuf.Empty
+	3, // 3: stoplistservice.StopListService.AddWord:output_type -> google.protobuf.Empty
+	3, // 4: stoplistservice.StopListService.DeleteWord:output_type -> google.protobuf.Empty
+	2, // 5: stoplistservice.StopListService.GetAllWords:output_type -> stoplistservice.GetAllWordsResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -165,7 +215,7 @@ func file_stoplist_stoplist_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_stoplist_stoplist_proto_rawDesc), len(file_stoplist_stoplist_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

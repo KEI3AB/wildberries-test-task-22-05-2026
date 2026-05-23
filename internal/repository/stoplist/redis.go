@@ -3,6 +3,7 @@ package stoplist
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/redis/rueidis"
@@ -50,4 +51,29 @@ func (r *RedisStopList) DeleteWord(ctx context.Context, word string) error {
 	}
 
 	return nil
+}
+
+func (r *RedisStopList) GetAllWords(ctx context.Context) ([]string, error) {
+	var words []string
+	var cursor uint64 = 0
+
+	for {
+		cmd := r.redisClient.B().Scan().Cursor(cursor).Match("stopword:*").Count(1000).Build()
+
+		resp, err := r.redisClient.Do(ctx, cmd).AsScanEntry()
+		if err != nil {
+			return nil, fmt.Errorf("redis scan error: %w", err)
+		}
+
+		for _, key := range resp.Elements {
+			words = append(words, strings.TrimPrefix(key, "stopword:"))
+		}
+
+		cursor = resp.Cursor
+		if cursor == 0 {
+			break // обошли базу
+		}
+	}
+
+	return words, nil
 }
