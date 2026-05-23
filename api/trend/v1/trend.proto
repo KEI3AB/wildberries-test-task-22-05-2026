@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package trendservice;
+
+option go_package =
+        "github.com/wildberries-test-task-22-05-2026/"
+        "internal/transport/grpc/pb";
+
+service TrendService {
+  rpc GetTopN (GetTopNRequest) returns (GetTopNResponse);
+}
+
+// Сущности
+
+message TrendItem {
+  string query = 1;
+  int32 count = 2;
+}
+
+// Сообщения запросов/ответов
+
+message GetTopNRequest {
+  int32 limit = 1;
+}
+
+message GetTopNResponse {
+  repeated TrendItem trends = 1;
+}
