@@ -2,7 +2,13 @@ package usecase
 
 import (
 	"context"
+	"errors"
 	"strings"
+)
+
+var (
+	ErrInvalidStopWord = errors.New("stopword must be a single word without spaces")
+	ErrEmptyStopWord   = errors.New("stopword cannot be empty")
 )
 
 type StopListRepository interface {
@@ -49,13 +55,32 @@ func (uc *StopListManager) IsBlocked(ctx context.Context, query string) (bool, e
 }
 
 func (uc *StopListManager) AddWord(ctx context.Context, word string) error {
-	return uc.slRepo.AddWord(ctx, word)
+	validWord, err := validateWord(word)
+	if err != nil {
+		return err
+	}
+	return uc.slRepo.AddWord(ctx, validWord)
 }
 
 func (uc *StopListManager) DeleteWord(ctx context.Context, word string) error {
-	return uc.slRepo.DeleteWord(ctx, word)
+	validWord, err := validateWord(word)
+	if err != nil {
+		return err
+	}
+	return uc.slRepo.DeleteWord(ctx, validWord)
 }
 
 func (uc *StopListManager) GetAllWords(ctx context.Context) ([]string, error) {
 	return uc.slRepo.GetAllWords(ctx)
+}
+
+func validateWord(word string) (string, error) {
+	w := strings.TrimSpace(word)
+	if w == "" {
+		return "", ErrEmptyStopWord
+	}
+	if strings.ContainsRune(w, ' ') {
+		return "", ErrInvalidStopWord
+	}
+	return w, nil
 }
