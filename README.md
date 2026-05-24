@@ -11,13 +11,13 @@
 Для проверки работоспособности, тестирования и использования всех возможностей `Makefile`, необходимо установить эти Go-утилиты:
 ```bash
 # Утилита для E2E нагрузочного тестирования (make load-test)
-go install [github.com/bojand/ghz/cmd/ghz@latest](https://github.com/bojand/ghz/cmd/ghz@latest)
+go install github.com/bojand/ghz/cmd/ghz@latest
 
 # Утилита для тестирования gRPC API из консоли
-go install [github.com/fullstorydev/grpcurl/cmd/grpcurl@latest](https://github.com/fullstorydev/grpcurl/cmd/grpcurl@latest)
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 
 # Официальный линтер (make lint)
-go install [github.com/golangci/golangci-lint/cmd/golangci-lint@latest](https://github.com/golangci/golangci-lint/cmd/golangci-lint@latest)
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 ```
 
 ### Запуск проекта
