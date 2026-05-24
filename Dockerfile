@@ -13,7 +13,7 @@ ENV GOMODCACHE=/go/pkg/mod
 
 RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
-    CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /app/bin/service ./cmd/trend-service/main.go
+    CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o /app/bin/service ./cmd/trend-service
 
 FROM alpine:latest
 WORKDIR /app
