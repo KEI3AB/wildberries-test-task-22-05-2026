@@ -4,7 +4,6 @@ import (
 	"cmp"
 	"container/heap"
 	"context"
-	"hash/fnv"
 	"slices"
 	"strings"
 	"sync"
@@ -149,7 +148,10 @@ func (r *RingBuffer) GetTopNTrends(ctx context.Context, n int) ([]domain.TrendQu
 }
 
 func hashStringToByte(s string) byte {
-	h := fnv.New32a()
-	_, _ = h.Write([]byte(s))
-	return byte(h.Sum32() % 256)
+	var h uint32 = 2166136261
+	for i := 0; i < len(s); i++ {
+		h ^= uint32(s[i])
+		h *= 16777619
+	}
+	return byte(h % 256)
 }
