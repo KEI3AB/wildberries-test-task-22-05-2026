@@ -105,6 +105,7 @@ func main() {
 	stopListRepo := stopListRepository.NewRedisRepository(redisClient)
 	trendRepo := trendRepository.NewRingBuffer()
 
+	stopListRepo.StartSync(ctx)
 	trendRepo.StartCleaner(ctx)
 
 	// Usecase
