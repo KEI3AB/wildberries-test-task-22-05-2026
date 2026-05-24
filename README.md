@@ -30,10 +30,46 @@ go install [github.com/golangci/golangci-lint/cmd/golangci-lint@latest](https://
 
 После `make run` сервис будет доступен на порту 50051
 
-### Пример gRPC запроса:
+### Примеры gRPC запросов:
+
+#### TrendService
+
+##### Получить Топ-N трендов:
 
 ```bash
-grpcurl -plaintext -import-path ./api/trend/v1 -proto trend.proto -d '{"limit": 10}' localhost:50051 trendservice.TrendService/GetTopN
+grpcurl -plaintext \
+  -import-path ./api/trend/v1 -proto trend.proto \
+  -d '{"limit": 10}' \
+  localhost:50051 trendservice.TrendService/GetTopN
+```
+
+#### StopListService
+
+##### Добавить слово в стоп-лист:
+
+```bash
+grpcurl -plaintext \
+  -import-path ./api/stoplist -import-path . -proto api/stoplist/stoplist.proto \
+  -d '{"word": "казино"}' \
+  localhost:50051 stoplistservice.StopListService/AddWord
+```
+
+##### Удалить слово из стоп-листа:
+
+```bash
+grpcurl -plaintext \
+  -import-path ./api/stoplist -import-path . -proto api/stoplist/stoplist.proto \
+  -d '{"word": "казино"}' \
+  localhost:50051 stoplistservice.StopListService/DeleteWord
+```
+
+##### Получить все слова из стоп-листа:
+
+```bash
+grpcurl -plaintext \
+  -import-path ./api/stoplist -import-path . -proto api/stoplist/stoplist.proto \
+  -d '{}' \
+  localhost:50051 stoplistservice.StopListService/GetAllWords
 ```
 
 ## Контракт данных (Kafka)
