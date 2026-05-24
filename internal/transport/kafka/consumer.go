@@ -5,6 +5,7 @@ package kafka
 import (
 	"context"
 	"log/slog"
+	"sync"
 
 	"github.com/mailru/easyjson"
 	"github.com/twmb/franz-go/pkg/kgo"
@@ -46,20 +47,33 @@ func (tr *Consumer) Start(ctx context.Context) {
 		}
 
 		iter := fetches.RecordIter()
+
+		var wg sync.WaitGroup
+		sem := make(chan struct{}, 256)
+
 		for !iter.Done() {
 			record := iter.Next()
 
-			var dto SearchEventPayload
-			if err := easyjson.Unmarshal(record.Value, &dto); err != nil {
-				slog.Error("kafka DTO easyjson unmarshalling error", "err", err)
-				continue
-			}
+			wg.Add(1)
+			sem <- struct{}{}
 
-			err := tr.trendUC.AddSearchEvent(ctx, searchEventPayloadDTOToSearchEventDomain(dto))
-			if err != nil {
-				slog.Error("failed to process event", "err", err)
-			}
+			go func(rec *kgo.Record) {
+				defer wg.Done()
+				defer func() { <-sem }()
+
+				var dto SearchEventPayload
+				if err := easyjson.Unmarshal(rec.Value, &dto); err != nil {
+					slog.Error("kafka DTO easyjson unmarshalling error", "err", err)
+					return
+				}
+
+				err := tr.trendUC.AddSearchEvent(ctx, searchEventPayloadDTOToSearchEventDomain(dto))
+				if err != nil {
+					slog.Error("failed to process event", "err", err)
+				}
+			}(record)
 		}
+		wg.Wait()
 	}
 }
 
