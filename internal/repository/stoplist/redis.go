@@ -3,6 +3,7 @@ package stoplist
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 	"time"
 
@@ -75,5 +76,6 @@ func (r *RedisStopList) GetAllWords(ctx context.Context) ([]string, error) {
 		}
 	}
 
+	slices.Sort(words)
 	return words, nil
 }
