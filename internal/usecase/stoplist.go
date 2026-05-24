@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+//go:generate mockgen -source=$GOFILE -destination=mocks/mock_$GOFILE -package=mocks
+
 var (
 	ErrInvalidStopWord = errors.New("stopword must be a single word without spaces")
 	ErrEmptyStopWord   = errors.New("stopword cannot be empty")

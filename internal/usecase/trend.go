@@ -8,6 +8,8 @@ import (
 	"github.com/wildberries-test-task-22-05-2026/internal/domain"
 )
 
+//go:generate mockgen -source=$GOFILE -destination=mocks/mock_$GOFILE -package=mocks
+
 type TrendRepository interface {
 	// Добавление поискового запроса в хранилище
 	AddSearchEvent(ctx context.Context, event domain.SearchEvent) error
