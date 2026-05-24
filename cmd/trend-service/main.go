@@ -107,6 +107,7 @@ func main() {
 
 	stopListRepo.StartSync(ctx)
 	trendRepo.StartCleaner(ctx)
+	trendRepo.StartTopCalculator(ctx)
 
 	// Usecase
 	stopListUC := usecase.NewStopListManager(stopListRepo)
