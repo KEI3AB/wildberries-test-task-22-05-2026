@@ -1,10 +1,12 @@
 package memory
 
 import (
+	"cmp"
 	"container/heap"
 	"context"
 	"hash/fnv"
 	"slices"
+	"strings"
 	"sync"
 	"time"
 
@@ -135,6 +137,13 @@ func (r *RingBuffer) GetTopNTrends(ctx context.Context, n int) ([]domain.TrendQu
 	}
 
 	slices.Reverse(result)
+
+	slices.SortFunc(result, func(a, b domain.TrendQuery) int {
+		if a.NumOfReq != b.NumOfReq {
+			return cmp.Compare(b.NumOfReq, a.NumOfReq)
+		}
+		return strings.Compare(a.Query, b.Query)
+	})
 
 	return result, nil
 }
