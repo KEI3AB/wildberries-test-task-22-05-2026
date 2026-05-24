@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"testing"
-	"time"
 
 	"github.com/redis/rueidis/mock"
 	"github.com/stretchr/testify/assert"
@@ -18,42 +17,23 @@ func TestRedisStopList_IsBlocked(t *testing.T) {
 	tests := []struct {
 		name          string
 		word          string
-		mockSetup     func(mockClient *mock.Client)
+		setup         func(repo *RedisStopList)
 		expectedBlock bool
-		expectedErr   bool
 	}{
 		{
 			name: "Слово есть в стоп-листе",
 			word: "676767676767",
-			mockSetup: func(m *mock.Client) {
-				m.EXPECT().
-					DoCache(ctx, mock.Match("GET", "stopword:676767676767"), 24*time.Hour).
-					Return(mock.Result(mock.RedisString("1")))
+			setup: func(repo *RedisStopList) {
+				repo.wordsCache["676767676767"] = struct{}{}
 			},
 			expectedBlock: true,
-			expectedErr:   false,
 		},
 		{
 			name: "Слова нет в стоп-листе",
 			word: "бурмалда",
-			mockSetup: func(mockClient *mock.Client) {
-				mockClient.EXPECT().
-					DoCache(ctx, mock.Match("GET", "stopword:бурмалда"), 24*time.Hour).
-					Return(mock.Result(mock.RedisNil()))
+			setup: func(repo *RedisStopList) {
 			},
 			expectedBlock: false,
-			expectedErr:   false,
-		},
-		{
-			name: "Ошибка сети - ФПВ-друн прилетел в датацентр с редисом",
-			word: "свага",
-			mockSetup: func(mockClient *mock.Client) {
-				mockClient.EXPECT().
-					DoCache(ctx, mock.Match("GET", "stopword:свага"), 24*time.Hour).
-					Return(mock.ErrorResult(errors.New("connection reset by peer")))
-			},
-			expectedBlock: false,
-			expectedErr:   true,
 		},
 	}
 
@@ -61,16 +41,12 @@ func TestRedisStopList_IsBlocked(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			mockClient := mock.NewClient(ctrl)
-			tc.mockSetup(mockClient)
 
 			repo := NewRedisRepository(mockClient)
-			blocked, err := repo.IsBlocked(ctx, tc.word)
+			tc.setup(repo)
 
-			if tc.expectedErr {
-				require.Error(t, err)
-			} else {
-				require.NoError(t, err)
-			}
+			blocked, err := repo.IsBlocked(ctx, tc.word)
+			require.NoError(t, err)
 
 			assert.Equal(t, tc.expectedBlock, blocked)
 		})

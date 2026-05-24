@@ -15,6 +15,7 @@ import (
 
 func TestRingBuffer_AddAndGetTopN(t *testing.T) {
 	baseTime := time.Now().UnixMilli()
+	minuteMs := int64(time.Minute / time.Millisecond)
 
 	tests := []struct {
 		name           string
@@ -42,12 +43,12 @@ func TestRingBuffer_AddAndGetTopN(t *testing.T) {
 			events: []domain.SearchEvent{
 				// 4 минуты подряд
 				{SessionID: "user1", Timestamp: baseTime, NormalizedQuery: "apple"},
-				{SessionID: "user2", Timestamp: baseTime - 1*int64(time.Minute), NormalizedQuery: "apple"},
-				{SessionID: "user3", Timestamp: baseTime - 2*int64(time.Minute), NormalizedQuery: "apple"},
-				{SessionID: "user4", Timestamp: baseTime - 3*int64(time.Minute), NormalizedQuery: "apple"},
+				{SessionID: "user2", Timestamp: baseTime - 1*minuteMs, NormalizedQuery: "apple"},
+				{SessionID: "user3", Timestamp: baseTime - 2*minuteMs, NormalizedQuery: "apple"},
+				{SessionID: "user4", Timestamp: baseTime - 3*minuteMs, NormalizedQuery: "apple"},
 				// через 1 минуту
-				{SessionID: "user2", Timestamp: baseTime - 1*int64(time.Minute), NormalizedQuery: "banana"},
-				{SessionID: "user4", Timestamp: baseTime - 3*int64(time.Minute), NormalizedQuery: "banana"},
+				{SessionID: "user2", Timestamp: baseTime - 1*minuteMs, NormalizedQuery: "banana"},
+				{SessionID: "user4", Timestamp: baseTime - 3*minuteMs, NormalizedQuery: "banana"},
 			},
 			topN: 2,
 			expectedResult: []domain.TrendQuery{
@@ -97,6 +98,8 @@ func TestRingBuffer_AddAndGetTopN(t *testing.T) {
 				require.NoError(t, err)
 			}
 
+			buffer.recalculateTop()
+
 			result, err := buffer.GetTopNTrends(ctx, tc.topN)
 			require.NoError(t, err)
 
@@ -130,6 +133,8 @@ func TestRingBuffer_Concurrency(t *testing.T) {
 	}
 
 	wg.Wait()
+
+	buffer.recalculateTop()
 
 	result, err := buffer.GetTopNTrends(ctx, 1)
 	require.NoError(t, err)
