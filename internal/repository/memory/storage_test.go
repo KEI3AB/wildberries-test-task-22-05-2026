@@ -172,7 +172,7 @@ func BenchmarkRingBuffer_AddSearchEvent_Parallel(b *testing.B) {
 
 	b.ResetTimer()
 	b.RunParallel(func(p *testing.PB) {
-		i := rand.Intn(25_000_000)
+		i := rand.Intn(5_000_000)
 		for p.Next() {
 			ev := domain.SearchEvent{
 				SessionID:       fmt.Sprintf("session_%d", i),
@@ -191,7 +191,7 @@ func BenchmarkRingBuffer_GetTopNTrends(b *testing.B) {
 	ctx := context.Background()
 	baseTime := time.Now().UnixMilli()
 
-	for i := 0; i < 25_000_000; i++ {
+	for i := 0; i < 5_000_000; i++ {
 		ev := domain.SearchEvent{
 			SessionID:       fmt.Sprintf("session_%d", i),
 			Timestamp:       baseTime,
